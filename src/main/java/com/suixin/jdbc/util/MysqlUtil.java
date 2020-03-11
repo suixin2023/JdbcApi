@@ -1,6 +1,6 @@
-package com.suixin.tavern.util;
+package com.suixin.jdbc.util;
 
-import com.suixin.tavern.handler.BetDataHandler;
+import com.suixin.jdbc.handler.BetDataHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class JdbcUtil {
+public class MysqlUtil {
     private Connection conn = null;
     private String dbDriver;    //定义驱动
     private String dbURL;        //定义URL

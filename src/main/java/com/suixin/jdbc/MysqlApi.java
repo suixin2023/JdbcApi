@@ -1,17 +1,17 @@
-package com.suixin.tavern;
+package com.suixin.jdbc;
 
-import com.suixin.tavern.handler.BetDataHandler;
-import com.suixin.tavern.util.JdbcUtil;
+import com.suixin.jdbc.handler.BetDataHandler;
+import com.suixin.jdbc.util.MysqlUtil;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Tavern extends JavaPlugin {
+public class MysqlApi extends JavaPlugin {
 	private BetDataHandler betDataHandler;
 	@Override
 	public void onEnable() {
 		this.betDataHandler = new BetDataHandler(this);
 		getLogger().info("==================[Tavern]==================");
 		try {
-			boolean connection = new JdbcUtil().openConnection(this.betDataHandler);//加载数据库驱动
+			boolean connection = new MysqlUtil().openConnection(this.betDataHandler);//加载数据库驱动
 			if (connection) {
 				getLogger().info("Mysql连接成功");
 			}

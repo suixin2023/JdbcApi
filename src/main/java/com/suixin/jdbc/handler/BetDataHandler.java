@@ -1,6 +1,6 @@
-package com.suixin.tavern.handler;
+package com.suixin.jdbc.handler;
 
-import com.suixin.tavern.Tavern;
+import com.suixin.jdbc.MysqlApi;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -8,9 +8,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class BetDataHandler {
-    private final Tavern tavern;
+    private final MysqlApi tavern;
 
-    public BetDataHandler(final Tavern tavern) {
+    public BetDataHandler(final MysqlApi tavern) {
         this.tavern = tavern;
         this.SaveDbConfig();
     }

@@ -1,16 +1,5 @@
-name: Tavern
-main: com.suixin.tavern.Tavern
+name: MysqlApi
+main: com.suixin.jdbc.MysqlApi
 version: ${project.version}
 authors:
 - suixin
-softdepend:
-- Vault
-- PlayerPoints
-- TitleManager
-commands:
-  tn:
-    description:
-    usage: /tn
-permissions:
-  tavern.tn:
-    description: Allows you to use tn
