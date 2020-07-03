@@ -25,18 +25,17 @@ public class MysqlUtil {
 //    private String password = "1234";    //定义密码
 
     //从配置文件取数据库链接参数
-    private void loadConnProperties(JavaPlugin plugin) {
+    private void loadConnProperties(FileConfiguration fileConfiguration) {
         //读取数据库配置
-        FileConfiguration fileConfiguration = LoadDbData(plugin);
         this.dbDriver = fileConfiguration.getString("Mysql.dbDriver");//从配置文件中取得相应的参数并设置类变量
         this.dbURL = fileConfiguration.getString("Mysql.dbURL");
         this.userName = fileConfiguration.getString("Mysql.userName");
         this.password = fileConfiguration.getString("Mysql.password");
     }
 
-    public boolean openConnection(JavaPlugin plugin) {
+    public boolean openConnection(FileConfiguration fileConfiguration) {
         try {
-            loadConnProperties(plugin);
+            loadConnProperties(fileConfiguration);
             Class.forName(dbDriver);
             this.conn = DriverManager.getConnection(dbURL, userName, password);
             return true;
@@ -226,30 +225,6 @@ public void callStordProc(String sql, Object[] inParams, SqlParameter[] outParam
     }
 
 
-    //读取数据库配置数据
-    public FileConfiguration LoadDbData(JavaPlugin plugin) {
-        final File file = new File(plugin.getDataFolder(), "db.yml");
-        final FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-        return config;
-    }
-
-    public void SaveDbConfig(JavaPlugin plugin) {
-        final File file = new File(plugin.getDataFolder(), "db.yml");
-
-        if (!file.exists()) {
-            plugin.getDataFolder().mkdirs();
-            final FileConfiguration config = new YamlConfiguration();
-            config.set("Mysql.dbDriver", "com.mysql.cj.jdbc.Driver");
-            config.set("Mysql.dbURL", "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT");
-            config.set("Mysql.userName", "root");
-            config.set("Mysql.password", "1234");
-            try {
-                config.save(file);
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public static void main(String[] args) {
 
