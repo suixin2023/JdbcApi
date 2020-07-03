@@ -14,30 +14,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class MysqlUtil {
-    private Connection conn = null;
-    private String dbDriver;    //定义驱动
-    private String dbURL;        //定义URL
-    private String userName;    //定义用户名
-    private String password;    //定义密码
-//    private String dbDriver = "com.mysql.cj.jdbc.Driver";    //定义驱动
-//    private String dbURL = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT";
-//    private String userName = "root";    //定义用户名
-//    private String password = "1234";    //定义密码
+    private static Connection conn = null;
+    private static String dbDriver;    //定义驱动
+    private static String dbURL;        //定义URL
+    private static String userName;    //定义用户名
+    private static String password;    //定义密码
 
     //从配置文件取数据库链接参数
-    private void loadConnProperties(FileConfiguration fileConfiguration) {
+    private static void loadConnProperties(FileConfiguration fileConfiguration) {
         //读取数据库配置
-        this.dbDriver = fileConfiguration.getString("Mysql.dbDriver");//从配置文件中取得相应的参数并设置类变量
-        this.dbURL = fileConfiguration.getString("Mysql.dbURL");
-        this.userName = fileConfiguration.getString("Mysql.userName");
-        this.password = fileConfiguration.getString("Mysql.password");
+        dbDriver = fileConfiguration.getString("Mysql.dbDriver");//从配置文件中取得相应的参数并设置类变量
+        dbURL = fileConfiguration.getString("Mysql.dbURL");
+        userName = fileConfiguration.getString("Mysql.userName");
+        password = fileConfiguration.getString("Mysql.password");
     }
 
-    public boolean openConnection(FileConfiguration fileConfiguration) {
+    public static boolean openConnection(FileConfiguration fileConfiguration) {
         try {
             loadConnProperties(fileConfiguration);
             Class.forName(dbDriver);
-            this.conn = DriverManager.getConnection(dbURL, userName, password);
+            conn = DriverManager.getConnection(dbURL, userName, password);
             return true;
         } catch (ClassNotFoundException classnotfoundexception) {
             classnotfoundexception.printStackTrace();
@@ -63,7 +59,7 @@ public class MysqlUtil {
     }
 
     // 查询并得到结果集
-    public ResultSet execQuery(String sql) throws Exception {
+    public static ResultSet execQuery(String sql) throws Exception {
         ResultSet rstSet = null;
         try {
             if (null == conn){
@@ -78,7 +74,7 @@ public class MysqlUtil {
     }
 
     // 查询并得到结果集(预编译对象)
-    public ResultSet executeQuery(String sql,String [] params) throws Exception {
+    public static ResultSet executeQuery(String sql,String [] params) throws Exception {
         ResultSet rstSet = null;
         try {
             if (null == conn){
@@ -94,7 +90,7 @@ public class MysqlUtil {
     }
 
     // 插入一条新纪录，并获取标识列的值
-    public ResultSet getInsertObjectIDs(String insertSql) throws Exception {
+    public static ResultSet getInsertObjectIDs(String insertSql) throws Exception {
         ResultSet rst = null;
         try {
             if (null == conn){
@@ -113,7 +109,7 @@ public class MysqlUtil {
     }
 
     //以参数SQL模式插入新纪录，并获取标识列的值
-    public ResultSet getInsertObjectIDs(String insertSql, Object[] params) throws Exception {
+    public static ResultSet getInsertObjectIDs(String insertSql, Object[] params) throws Exception {
         ResultSet rst = null;
         PreparedStatement pstmt = null;
         try {
@@ -137,7 +133,7 @@ public class MysqlUtil {
 
 
     // 插入、更新、删除
-    public int execCommand(String sql) throws Exception {
+    public static int execCommand(String sql) throws Exception {
         int flag = 0;
         try {
             if (null == conn){
@@ -179,7 +175,7 @@ public void callStordProc(String sql, Object[] inParams, SqlParameter[] outParam
 }
 */
     // 释放资源
-    public void close(ResultSet rst) throws Exception {
+    public static void close(ResultSet rst) throws Exception {
         try {
             Statement stmt = rst.getStatement();
             rst.close();
@@ -189,7 +185,7 @@ public void callStordProc(String sql, Object[] inParams, SqlParameter[] outParam
         }
     }
 
-    public PreparedStatement execPrepared(String psql) throws Exception {
+    public static PreparedStatement execPrepared(String psql) throws Exception {
         PreparedStatement pstmt = null;
         try {
             if (null == conn){
@@ -204,7 +200,7 @@ public void callStordProc(String sql, Object[] inParams, SqlParameter[] outParam
 
 
     // 释放资源
-    public void close(Statement stmt) throws Exception {
+    public static void close(Statement stmt) throws Exception {
         try {
             stmt.close();
         } catch (SQLException e) {
@@ -213,20 +209,15 @@ public void callStordProc(String sql, Object[] inParams, SqlParameter[] outParam
     }
 
     // 释放资源
-    public void close() throws SQLException, Exception {
+    public static void close() throws SQLException, Exception {
         if (null != conn) {
             conn.close();
             conn = null;
         }
     }
 
-    public Connection getConn() {
+    public static Connection getConn() {
         return conn;
     }
 
-
-
-    public static void main(String[] args) {
-
-    }
 }
